@@ -4,10 +4,12 @@ class UsersController < ApplicationController
   end
 
   def update
-    user.send(params[:command])
-    user.increment(:point) if Map[user.y][user.x] == 1
-    return head 400 unless user.valid?
-    user.save
+    lua = Rufus::Lua::State.new
+    lua.eval(File.read("lib/move_user.lua"))
+    current_position = {x: user.x + 1, y: user.y + 1}
+    lua_position, point = lua.eval("return game(#{Map.to_lua}, #{current_position.to_lua}, #{commands.to_lua})")
+    update_param = {x: lua_position.to_h["x"] - 1, y: lua_position.to_h["y"] - 1, point: user.point + point}
+    user.update(update_param)
     render json: user
   end
 
@@ -20,5 +22,9 @@ class UsersController < ApplicationController
 
   def user
     @user ||= User.find_or_create_by(id: 1)
+  end
+
+  def commands
+    Array(params[:commands])
   end
 end
