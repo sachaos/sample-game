@@ -1,24 +1,36 @@
-# README
+Sample Game App
+===
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Description
 
-Things you may want to cover:
+Sample game Rails server.
 
-* Ruby version
+Using Lua as game logic, to share with Client.
 
-* System dependencies
+## API
 
-* Configuration
+# Show Map
 
-* Database creation
+```
+$ curl -X GET http://localhost:3000/map
+[[0,0,0],[1,1,0],[0,1,0]]
+```
 
-* Database initialization
+# Show character
 
-* How to run the test suite
+```
+$ curl -X GET http://localhost:3000/user
+{"id":1,"point":3,"x":0,"y":0,"created_at":"2016-11-23T06:55:51.000Z","updated_at":"2016-11-23T08:57:27.000Z"}
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+# Move character
 
-* Deployment instructions
+```
+curl -X PUT http://localhost:3000/user -d 'commands[]=up' -d 'commands[]=down' -d 'commands[]=right' -d 'commands[]=left'
+{"x":0,"y":0,"point":3,"id":1,"created_at":"2016-11-23T06:55:51.000Z","updated_at":"2016-11-23T08:57:27.000Z"}
+```
 
-* ...
+# Reset character
+```
+$ curl -X DELETE http://localhost:3000/user
+```
