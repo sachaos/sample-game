@@ -11,6 +11,11 @@ class UsersController < ApplicationController
     render json: user
   end
 
+  def destroy
+    user.update(x: 0, y: 0, point: 0)
+    head 204
+  end
+
   private
 
   def user
