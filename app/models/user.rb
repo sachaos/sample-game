@@ -17,4 +17,13 @@ class User < ApplicationRecord
   def left
     decrement(:x)
   end
+
+  def lua_position
+    {x: x + 1, y: y + 1}
+  end
+
+  def lua_position=(lua_position)
+    self.x = lua_position["x"] - 1
+    self.y = lua_position["y"] - 1
+  end
 end

@@ -1,0 +1,2 @@
+class MoveUser < LuaBase
+end

@@ -4,12 +4,13 @@ class UsersController < ApplicationController
   end
 
   def update
-    lua = Rufus::Lua::State.new
-    lua.eval(File.read("lib/move_user.lua"))
-    current_position = {x: user.x + 1, y: user.y + 1}
-    lua_position, point = lua.eval("return game(#{Map.to_lua}, #{current_position.to_lua}, #{commands.to_lua})")
-    update_param = {x: lua_position.to_h["x"] - 1, y: lua_position.to_h["y"] - 1, point: user.point + point}
-    user.update(update_param)
+    move_user = MoveUser.new
+
+    lua_table, point = move_user.game(Map, user.lua_position, commands)
+
+    user.lua_position = lua_table.to_h
+    user.point += point
+    user.save
     render json: user
   end
 
