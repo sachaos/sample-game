@@ -20,3 +20,8 @@ class LuaBase
     super
   end
 end
+
+Dir.glob("lib/*.lua").each do |file_path|
+  filename = File.basename(file_path).ext
+  self.class.const_set(filename.classify.to_s, Class.new(LuaBase))
+end
