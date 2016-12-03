@@ -26,7 +26,7 @@ $ curl -X GET http://localhost:3000/user
 ### Move character
 
 ```
-curl -X PUT http://localhost:3000/user -d 'commands[]=up' -d 'commands[]=down' -d 'commands[]=right' -d 'commands[]=left'
+$ curl -X PUT http://localhost:3000/user -d 'commands[]=up' -d 'commands[]=down' -d 'commands[]=right' -d 'commands[]=left'
 {"x":0,"y":0,"point":3,"id":1,"created_at":"2016-11-23T06:55:51.000Z","updated_at":"2016-11-23T08:57:27.000Z"}
 ```
 
